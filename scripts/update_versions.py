@@ -14,8 +14,8 @@ readme_file = Path("README.md")
 readme_text = readme_file.read_text()
 
 readme_text_new = re.sub(
-  r"(version:)([0-9]+\.[0-9]+\.[0-9]+)",
-  rf"\1{version}",
+  r"(version:)\s+([0-9]+\.[0-9]+\.[0-9]+)",
+  rf"\1 {version}",
   readme_text
 )
 
