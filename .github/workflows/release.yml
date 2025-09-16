@@ -1,0 +1,34 @@
+me: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: 'Release type'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # required for tagging + GitHub release
+      packages: write   # if pushing Docker images to GHCR
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: npm install -g release-it
+
+      - name: Run release-it
+        run: release-it ${{ github.event.inputs.bump }} --ci
+
